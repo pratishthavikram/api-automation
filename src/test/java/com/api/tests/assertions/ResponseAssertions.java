@@ -25,4 +25,12 @@ public class ResponseAssertions {
         );
     }
 
+    public static void verifyEquals(String actual, String expected) {
+        Assert.assertEquals(
+                actual,
+                expected,
+                "Values do not match"
+        );
+    }
+
 }
