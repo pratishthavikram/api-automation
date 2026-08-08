@@ -1,14 +1,11 @@
 package com.api.tests.base;
 
-import io.restassured.RestAssured;
 import org.testng.annotations.BeforeSuite;
 
 public class BaseTest {
 
     @BeforeSuite
     public void setup() {
-
-        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
-
+        System.out.println("Starting API Test Suite");
     }
 }

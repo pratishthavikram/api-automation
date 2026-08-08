@@ -1,8 +1,7 @@
 package com.api.client;
 
-import com.api.config.Config;
+import com.api.config.RequestSpec;
 import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
 public class ApiClient {
@@ -14,19 +13,19 @@ public class ApiClient {
 
         return RestAssured
                 .given()
-                .baseUri(Config.get("baseUrl"))
-                .contentType(ContentType.JSON)
+                .spec(RequestSpec.getRequestSpecification())
                 .when()
                 .get(endpoint);
     }
 
-    public static Response post(String endpoint, Object body) {
+    public static Response post(
+            String endpoint,
+            Object requestBody) {
 
         return RestAssured
                 .given()
-                .baseUri(Config.get("baseUrl"))
-                .contentType(ContentType.JSON)
-                .body(body)
+                .spec(RequestSpec.getRequestSpecification())
+                .body(requestBody)
                 .when()
                 .post(endpoint);
     }
