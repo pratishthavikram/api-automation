@@ -7,8 +7,9 @@
         <classes>
 
             <class name="com.api.tests.CreateBookingTest"/>
-
             <class name="com.api.tests.GetBookingTest"/>
+            <class name="com.api.tests.CreateBookingDataDrivenTest"/>
+            <class name="com.api.tests.GetBookingNegativeTest"/>
 
         </classes>
 
