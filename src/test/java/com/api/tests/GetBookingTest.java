@@ -1,13 +1,10 @@
 package com.api.tests;
 
-import com.api.client.ApiClient;
-import com.api.constants.Endpoints;
+import com.api.service.BookingService;
 import com.api.tests.assertions.ResponseAssertions;
 import com.api.tests.base.BaseTest;
 import com.api.utils.TestData;
-
 import io.restassured.response.Response;
-
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -16,9 +13,8 @@ public class GetBookingTest extends BaseTest {
     @Test(dependsOnMethods = "com.api.tests.CreateBookingTest.createBooking")
     public void getBooking() {
 
-        Response response = ApiClient.get(
-                Endpoints.BOOKING + "/" + TestData.bookingId
-        );
+        Response response =
+                BookingService.getBooking(TestData.bookingId);
 
         response.prettyPrint();
 
@@ -33,7 +29,5 @@ public class GetBookingTest extends BaseTest {
                 response.jsonPath().getString("lastname"),
                 "Singh"
         );
-
     }
-
 }

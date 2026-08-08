@@ -4,11 +4,13 @@
 
     <test name="Booking Tests">
 
-        <packages>
+        <classes>
 
-            <package name="com.api.tests"/>
+            <class name="com.api.tests.CreateBookingTest"/>
 
-        </packages>
+            <class name="com.api.tests.GetBookingTest"/>
+
+        </classes>
 
     </test>
 
