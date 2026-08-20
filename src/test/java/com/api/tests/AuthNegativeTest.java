@@ -1,46 +1,48 @@
 package com.api.tests;
+
+import com.api.clients.AuthClient;
+import io.restassured.response.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.api.model.AuthRequest;
-import com.api.service.BookingService;
-import com.api.tests.base.BaseTest;
-import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class AuthNegativeTest extends BaseTest {
+public class AuthNegativeTest {
+
     private static final Logger log =
-            LoggerFactory.getLogger(AuthTest.class);
+            LoggerFactory.getLogger(AuthNegativeTest.class);
+
+    private final AuthClient authClient =
+            new AuthClient();
 
     @Test
     public void invalidAuthentication() {
 
         log.info("Starting invalid authentication test");
 
-        AuthRequest authRequest = new AuthRequest(
-                "invalid_user",
-                "invalid_password"
-        );
-
         Response response =
-                BookingService.authenticate(authRequest);
+                authClient.createToken(
+                        "invalid-user",
+                        "invalid-password");
 
-        response.prettyPrint();
+        log.info(
+                "Authentication response status: {}",
+                response.statusCode());
+
+        log.info(
+                "Authentication response body: {}",
+                response.asString());
 
         Assert.assertEquals(
-                response.getStatusCode(),
-                200
-        );
+                response.statusCode(),
+                200,
+                "Unexpected HTTP status");
 
-        String reason =
-                response.jsonPath().getString("reason");
+        Assert.assertTrue(
+                response.asString().contains("Bad credentials"),
+                "Expected authentication failure message was not found");
 
-        Assert.assertEquals(
-                reason,
-                "Bad credentials"
-        );
-
-        log.info("Invalid authentication test completed");
+        log.info(
+                "Invalid authentication test completed successfully");
     }
 }

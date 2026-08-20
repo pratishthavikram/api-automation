@@ -1,40 +1,83 @@
 package com.api.tests;
 
-import com.api.builder.BookingBuilder;
-import com.api.model.Booking;
-import com.api.service.BookingService;
-import com.api.tests.assertions.ResponseAssertions;
-import com.api.tests.base.BaseTest;
-import com.api.tests.data.BookingDataProvider;
+import com.api.clients.BookingClient;
 import io.restassured.response.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-public class CreateBookingDataDrivenTest extends BaseTest {
+public class CreateBookingDataDrivenTest {
 
-    @Test(dataProvider = "bookingNames", dataProviderClass = BookingDataProvider.class)
+    private static final Logger log =
+            LoggerFactory.getLogger(
+                    CreateBookingDataDrivenTest.class);
+
+    private final BookingClient bookingClient =
+            new BookingClient();
+
+    @DataProvider(name = "bookingData")
+    public Object[][] bookingData() {
+
+        return new Object[][]{
+                {"John", "Doe"},
+                {"Alice", "Smith"},
+                {"Robert", "Brown"}
+        };
+    }
+
+    @Test(dataProvider = "bookingData")
     public void createBookingWithDifferentNames(
-            String firstname,
-            String lastname) {
+            String firstName,
+            String lastName) {
 
-        Booking booking = BookingBuilder.createDefaultBooking();
+        log.info(
+                "Creating booking for firstName={} lastName={}",
+                firstName,
+                lastName);
 
-        booking.setFirstname(firstname);
-        booking.setLastname(lastname);
+        String requestBody = """
+                {
+                    "firstname": "%s",
+                    "lastname": "%s",
+                    "totalprice": 111,
+                    "depositpaid": true,
+                    "bookingdates": {
+                        "checkin": "2026-08-20",
+                        "checkout": "2026-08-25"
+                    },
+                    "additionalneeds": "Breakfast"
+                }
+                """.formatted(
+                firstName,
+                lastName);
 
-        Response response = BookingService.createBooking(booking);
+        Response response =
+                bookingClient.createBooking(requestBody);
 
-        response.prettyPrint();
+        Assert.assertEquals(
+                response.statusCode(),
+                200,
+                "Create booking failed");
 
-        ResponseAssertions.verifyStatusCode(response, 200);
+        Assert.assertNotNull(
+                response.jsonPath().get("bookingid"),
+                "Booking ID should not be null");
 
-        ResponseAssertions.verifyResponseContains(
-                response,
-                "bookingid");
+        Assert.assertEquals(
+                response.jsonPath().getString(
+                        "booking.firstname"),
+                firstName);
 
-        System.out.println(
-                "Created booking for: "
-                        + firstname
-                        + " "
-                        + lastname);
+        Assert.assertEquals(
+                response.jsonPath().getString(
+                        "booking.lastname"),
+                lastName);
+
+        log.info(
+                "Booking created successfully for {} {}",
+                firstName,
+                lastName);
     }
 }

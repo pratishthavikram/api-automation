@@ -1,35 +1,52 @@
 package com.api.tests;
 
-import com.api.builder.BookingBuilder;
-import com.api.model.Booking;
-import com.api.service.BookingService;
-import com.api.tests.assertions.ResponseAssertions;
-import com.api.tests.base.BaseTest;
-import com.api.utils.TestData;
+import com.api.clients.BookingClient;
 import io.restassured.response.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class CreateBookingTest extends BaseTest {
+public class CreateBookingTest {
+
+    private static final Logger log =
+            LoggerFactory.getLogger(CreateBookingTest.class);
+
+    private final BookingClient bookingClient =
+            new BookingClient();
 
     @Test
     public void createBooking() {
 
-        Booking booking = BookingBuilder.createDefaultBooking();
+        log.info("Starting create booking test");
 
-        Response response = BookingService.createBooking(booking);
+        String requestBody = """
+                {
+                    "firstname": "Jim",
+                    "lastname": "Brown",
+                    "totalprice": 111,
+                    "depositpaid": true,
+                    "bookingdates": {
+                        "checkin": "2026-08-20",
+                        "checkout": "2026-08-25"
+                    },
+                    "additionalneeds": "Breakfast"
+                }
+                """;
 
-        response.prettyPrint();
+        Response response =
+                bookingClient.createBooking(requestBody);
 
-        ResponseAssertions.verifyStatusCode(response, 200);
+        Assert.assertEquals(
+                response.statusCode(),
+                200,
+                "Create booking request failed");
 
-        ResponseAssertions.verifyResponseContains(
-                response,
-                "bookingid"
-        );
+        Assert.assertNotNull(
+                response.jsonPath().get("bookingid"),
+                "Booking ID should not be null");
 
-        TestData.bookingId =
-                response.jsonPath().getInt("bookingid");
-
-        System.out.println("Booking ID : " + TestData.bookingId);
+        log.info(
+                "Create booking test completed successfully");
     }
 }
