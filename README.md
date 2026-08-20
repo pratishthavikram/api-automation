@@ -28,3 +28,20 @@ A production-inspired API automation framework built using Java, Rest Assured, T
 - Allure Reports
 - GitHub Actions
 - Docker
+
+## CI/CD
+
+This project uses GitHub Actions to execute API automation tests
+automatically.
+
+### Supported Environments
+
+- QA
+- STAGE
+
+### Local Execution
+
+Run tests against STAGE:
+
+```bash
+mvn clean test -Denv=stage
