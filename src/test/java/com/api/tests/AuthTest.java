@@ -1,5 +1,6 @@
 package com.api.tests;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.api.config.Config;
 import com.api.model.AuthRequest;
 import com.api.service.BookingService;
@@ -10,9 +11,13 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class AuthTest extends BaseTest {
+    private static final Logger log =
+            LoggerFactory.getLogger(AuthTest.class);
 
     @Test
     public void validAuthentication() {
+
+        log.info("Starting valid authentication test");
 
         AuthRequest authRequest = new AuthRequest(
                 Config.getUsername(),
@@ -43,5 +48,9 @@ public class AuthTest extends BaseTest {
         Assert.assertFalse(
                 token.isEmpty(),
                 "Authentication token should not be empty");
+
+        log.info("Valid authentication test completed successfully");
     }
+
+    
 }

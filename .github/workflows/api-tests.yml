@@ -49,11 +49,12 @@ jobs:
       - name: Run API automation tests
         run: mvn clean test -Denv=${{ env.TEST_ENV }}
 
-      - name: Upload test reports
+      - name: Upload test reports and logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: api-test-reports-${{ env.TEST_ENV }}
+          name: api-test-results-${{ env.TEST_ENV }}
           path: |
             target/surefire-reports/
+            logs/
           retention-days: 7

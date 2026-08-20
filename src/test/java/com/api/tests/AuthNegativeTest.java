@@ -1,4 +1,6 @@
 package com.api.tests;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.api.model.AuthRequest;
 import com.api.service.BookingService;
@@ -8,9 +10,13 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class AuthNegativeTest extends BaseTest {
+    private static final Logger log =
+            LoggerFactory.getLogger(AuthTest.class);
 
     @Test
     public void invalidAuthentication() {
+
+        log.info("Starting invalid authentication test");
 
         AuthRequest authRequest = new AuthRequest(
                 "invalid_user",
@@ -34,5 +40,7 @@ public class AuthNegativeTest extends BaseTest {
                 reason,
                 "Bad credentials"
         );
+
+        log.info("Invalid authentication test completed");
     }
 }
