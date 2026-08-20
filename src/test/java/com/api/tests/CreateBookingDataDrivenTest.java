@@ -11,10 +11,7 @@ import org.testng.annotations.Test;
 
 public class CreateBookingDataDrivenTest extends BaseTest {
 
-    @Test(
-        dataProvider = "bookingNames",
-        dataProviderClass = BookingDataProvider.class
-    )
+    @Test(dataProvider = "bookingNames", dataProviderClass = BookingDataProvider.class)
     public void createBookingWithDifferentNames(
             String firstname,
             String lastname) {
@@ -32,14 +29,12 @@ public class CreateBookingDataDrivenTest extends BaseTest {
 
         ResponseAssertions.verifyResponseContains(
                 response,
-                "bookingid"
-        );
+                "bookingid");
 
         System.out.println(
                 "Created booking for: "
                         + firstname
                         + " "
-                        + lastname
-        );
+                        + lastname);
     }
 }

@@ -16,41 +16,32 @@ public class AuthTest extends BaseTest {
 
         AuthRequest authRequest = new AuthRequest(
                 Config.getUsername(),
-                Config.getPassword()
-        );
+                Config.getPassword());
 
-        Response response =
-                BookingService.authenticate(authRequest);
+        Response response = BookingService.authenticate(authRequest);
 
         response.prettyPrint();
-        
 
         ResponseAssertions.verifyStatusCode(
                 response,
-                200
-        );
+                200);
 
         ResponseAssertions.verifyResponseTime(
-        response,
-        5000
-);
+                response,
+                5000);
 
-ResponseAssertions.verifyHeaderExists(
-        response,
-        "Content-Type"
-);
+        ResponseAssertions.verifyHeaderExists(
+                response,
+                "Content-Type");
 
-        String token =
-                response.jsonPath().getString("token");
+        String token = response.jsonPath().getString("token");
 
         Assert.assertNotNull(
                 token,
-                "Authentication token should not be null"
-        );
+                "Authentication token should not be null");
 
         Assert.assertFalse(
                 token.isEmpty(),
-                "Authentication token should not be empty"
-        );
+                "Authentication token should not be empty");
     }
 }

@@ -13,22 +13,20 @@ public class BookingService {
 
         return ApiClient.post(
                 Endpoints.BOOKING,
-                booking
-        );
+                booking);
     }
-     
+
     public static Response authenticate(AuthRequest authRequest) {
 
-    return ApiClient.post(
-            Endpoints.AUTH,
-            authRequest
-    );
-}
+        return ApiClient.post(
+                Endpoints.AUTH,
+                authRequest);
+    }
+
     public static Response getBooking(int bookingId) {
 
         return ApiClient.get(
-                Endpoints.BOOKING + "/" + bookingId
-        );
+                Endpoints.BOOKING + "/" + bookingId);
     }
 
 }

@@ -13,46 +13,41 @@ public class ResponseAssertions {
         Assert.assertEquals(
                 response.getStatusCode(),
                 expectedStatusCode,
-                "Status code mismatch"
-        );
+                "Status code mismatch");
     }
 
     public static void verifyResponseContains(Response response, String expectedText) {
 
         Assert.assertTrue(
                 response.asString().contains(expectedText),
-                "Expected text not found in response"
-        );
+                "Expected text not found in response");
     }
 
     public static void verifyEquals(String actual, String expected) {
         Assert.assertEquals(
                 actual,
                 expected,
-                "Values do not match"
-        );
+                "Values do not match");
     }
 
     public static void verifyResponseTime(
-        Response response,
-        long maxResponseTime) {
+            Response response,
+            long maxResponseTime) {
 
-    Assert.assertTrue(
-            response.getTime() <= maxResponseTime,
-            "Response time exceeded expected limit. Actual: "
-                    + response.getTime()
-                    + " ms"
-    );
-}
+        Assert.assertTrue(
+                response.getTime() <= maxResponseTime,
+                "Response time exceeded expected limit. Actual: "
+                        + response.getTime()
+                        + " ms");
+    }
 
-public static void verifyHeaderExists(
-        Response response,
-        String headerName) {
+    public static void verifyHeaderExists(
+            Response response,
+            String headerName) {
 
-    Assert.assertNotNull(
-            response.getHeader(headerName),
-            "Expected header not found: " + headerName
-    );
-}
+        Assert.assertNotNull(
+                response.getHeader(headerName),
+                "Expected header not found: " + headerName);
+    }
 
 }

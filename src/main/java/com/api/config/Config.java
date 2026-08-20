@@ -10,41 +10,34 @@ public class Config {
 
     static {
 
-        String environment =
-                System.getProperty("env", "qa");
+        String environment = System.getProperty("env", "qa");
 
-        String configFile =
-                "config-" + environment.toLowerCase() + ".properties";
+        String configFile = "config-" + environment.toLowerCase() + ".properties";
 
-        try (InputStream input =
-                     Config.class
-                             .getClassLoader()
-                             .getResourceAsStream(configFile)) {
+        try (InputStream input = Config.class
+                .getClassLoader()
+                .getResourceAsStream(configFile)) {
 
             if (input == null) {
                 throw new RuntimeException(
-                        "Configuration file not found: " + configFile
-                );
+                        "Configuration file not found: " + configFile);
             }
 
             properties.load(input);
 
             System.out.println(
-        "Running tests against environment: "
-                + environment.toUpperCase()
-);
+                    "Running tests against environment: "
+                            + environment.toUpperCase());
 
-System.out.println(
-        "Base URL: "
-                + properties.getProperty("base.url")
-);
+            System.out.println(
+                    "Base URL: "
+                            + properties.getProperty("base.url"));
 
         } catch (IOException e) {
 
             throw new RuntimeException(
                     "Unable to load configuration: " + configFile,
-                    e
-            );
+                    e);
         }
     }
 
@@ -59,15 +52,14 @@ System.out.println(
     public static int getApiTimeout() {
 
         return Integer.parseInt(
-                properties.getProperty("api.timeout")
-        );
+                properties.getProperty("api.timeout"));
     }
 
     public static String getUsername() {
-    return properties.getProperty("username");
-}
+        return properties.getProperty("username");
+    }
 
-public static String getPassword() {
-    return properties.getProperty("password");
-}
+    public static String getPassword() {
+        return properties.getProperty("password");
+    }
 }

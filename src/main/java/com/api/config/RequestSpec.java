@@ -13,6 +13,12 @@ public class RequestSpec {
         return new RequestSpecBuilder()
                 .setBaseUri(Config.getBaseUrl())
                 .setContentType("application/json")
+                .addFilter(
+                        LoggingConfig.requestLogger(System.out)
+                )
+                .addFilter(
+                        LoggingConfig.responseLogger(System.out)
+                )
                 .build();
     }
 }
