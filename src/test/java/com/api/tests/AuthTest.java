@@ -1,0 +1,56 @@
+package com.api.tests;
+
+import com.api.config.Config;
+import com.api.model.AuthRequest;
+import com.api.service.BookingService;
+import com.api.tests.assertions.ResponseAssertions;
+import com.api.tests.base.BaseTest;
+import io.restassured.response.Response;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class AuthTest extends BaseTest {
+
+    @Test
+    public void validAuthentication() {
+
+        AuthRequest authRequest = new AuthRequest(
+                Config.getUsername(),
+                Config.getPassword()
+        );
+
+        Response response =
+                BookingService.authenticate(authRequest);
+
+        response.prettyPrint();
+        
+
+        ResponseAssertions.verifyStatusCode(
+                response,
+                200
+        );
+
+        ResponseAssertions.verifyResponseTime(
+        response,
+        5000
+);
+
+ResponseAssertions.verifyHeaderExists(
+        response,
+        "Content-Type"
+);
+
+        String token =
+                response.jsonPath().getString("token");
+
+        Assert.assertNotNull(
+                token,
+                "Authentication token should not be null"
+        );
+
+        Assert.assertFalse(
+                token.isEmpty(),
+                "Authentication token should not be empty"
+        );
+    }
+}

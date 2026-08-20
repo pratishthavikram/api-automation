@@ -2,8 +2,10 @@ package com.api.service;
 
 import com.api.client.ApiClient;
 import com.api.constants.Endpoints;
+import com.api.model.AuthRequest;
 import com.api.model.Booking;
 import io.restassured.response.Response;
+import com.api.model.AuthRequest;
 
 public class BookingService {
 
@@ -14,7 +16,14 @@ public class BookingService {
                 booking
         );
     }
+     
+    public static Response authenticate(AuthRequest authRequest) {
 
+    return ApiClient.post(
+            Endpoints.AUTH,
+            authRequest
+    );
+}
     public static Response getBooking(int bookingId) {
 
         return ApiClient.get(

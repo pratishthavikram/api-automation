@@ -62,4 +62,12 @@ System.out.println(
                 properties.getProperty("api.timeout")
         );
     }
+
+    public static String getUsername() {
+    return properties.getProperty("username");
+}
+
+public static String getPassword() {
+    return properties.getProperty("password");
+}
 }

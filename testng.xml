@@ -10,6 +10,8 @@
             <class name="com.api.tests.GetBookingTest"/>
             <class name="com.api.tests.CreateBookingDataDrivenTest"/>
             <class name="com.api.tests.GetBookingNegativeTest"/>
+            <class name="com.api.tests.AuthTest"/>
+            <class name="com.api.tests.AuthNegativeTest"/>
 
         </classes>
 

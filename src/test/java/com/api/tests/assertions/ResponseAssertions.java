@@ -33,4 +33,26 @@ public class ResponseAssertions {
         );
     }
 
+    public static void verifyResponseTime(
+        Response response,
+        long maxResponseTime) {
+
+    Assert.assertTrue(
+            response.getTime() <= maxResponseTime,
+            "Response time exceeded expected limit. Actual: "
+                    + response.getTime()
+                    + " ms"
+    );
+}
+
+public static void verifyHeaderExists(
+        Response response,
+        String headerName) {
+
+    Assert.assertNotNull(
+            response.getHeader(headerName),
+            "Expected header not found: " + headerName
+    );
+}
+
 }
