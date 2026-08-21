@@ -18,12 +18,22 @@ public class GetBookingTest {
     @Test
     public void getBooking() {
 
-        int bookingId = 1;
+        log.info("Creating booking before fetching it");
 
-        log.info(
-                "Starting get booking test for ID: {}",
-                bookingId);
+        // Create a booking first
+        Response createResponse = bookingClient.createBooking();
 
+        Assert.assertEquals(
+                createResponse.statusCode(),
+                200,
+                "Booking creation failed");
+
+        int bookingId =
+                createResponse.jsonPath().getInt("bookingid");
+
+        log.info("Created booking with ID: {}", bookingId);
+
+        // Get the newly created booking
         Response response =
                 bookingClient.getBooking(bookingId);
 
@@ -41,6 +51,7 @@ public class GetBookingTest {
                 "Lastname should not be null");
 
         log.info(
-                "Get booking test completed successfully");
+                "Successfully fetched booking with ID: {}",
+                bookingId);
     }
 }
